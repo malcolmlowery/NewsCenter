@@ -1,20 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Registration from './src/screens/registration';
+import Home from './src/screens/home';
+import Text from './src/components/Text';
+import Avatar from './src/components/Avatar';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+const Stack = createNativeStackNavigator();
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const App = () => {
+  const isAuthenticated = true;
+
+  return(
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ 
+        headerShadowVisible: false,
+        headerLeft: () => <Text fontSize={28} fontWeight='700' style={{ marginLeft: 2 }}>Newsly</Text>,
+        headerRight: () => <Avatar uri='https://avatars.githubusercontent.com/u/100153203?v=4' style={{ marginRight: 2 }} />,
+        title: '',
+       }}>
+        {!isAuthenticated ?
+          <Stack.Screen name='registration' component={Registration} /> :
+          <Stack.Screen name='home' component={Home} />
+        }
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+};
+
+export default App;
