@@ -14,7 +14,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ 
         headerShadowVisible: false,
-        headerLeft: () => <Text fontSize={28} fontWeight='700' style={{ marginLeft: 2 }}>Newsly</Text>,
+        headerLeft: () => <Text fontSize={26} fontWeight='700' style={{ marginLeft: 2 }}>NewsCenter</Text>,
         headerRight: () => <Avatar uri='https://avatars.githubusercontent.com/u/100153203?v=4' style={{ marginRight: 2 }} />,
         title: '',
        }}>
