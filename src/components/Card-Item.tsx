@@ -1,10 +1,11 @@
-import { Image, Pressable, View, ViewStyle } from "react-native";
+import { Image, Pressable, useWindowDimensions, View, ViewStyle } from "react-native";
 import { BlurView } from 'expo-blur';
 import { Ionicons } from '@expo/vector-icons';
 import Text from "./Text";
 
 interface CardItemI {
   handlePressBookmarkButton: () => void
+  handleNavigationToArticle: () => void
   datePublished: string
   isBookmarked: boolean
   image: string
@@ -14,68 +15,29 @@ interface CardItemI {
 
 const CardItem = ({ 
   handlePressBookmarkButton,
+  handleNavigationToArticle,
   datePublished,
   isBookmarked, 
-  image, 
+  image,
   summaryText, 
   style }: CardItemI) => {
-  return(
-    <View style={[
-      style, {
-      backgroundColor: '#fff',
-      borderRadius: 30,
-      height: 348,
-      marginBottom: 20,
-      shadowColor: '#000',
-      shadowRadius: 10,
-      shadowOpacity: 0.25,
-      shadowOffset: { height: 10, width: 0 },
-      width: 373,
-    }]}>
-      <View style={{ position: 'absolute', zIndex: 100 }}>
-        <Image 
-          style={{ 
-            borderTopRightRadius: 30, 
-            borderTopLeftRadius: 30,
-            height: 250, 
-            width: 373, 
-            zIndex: 110, 
-          }} 
-          source={{ uri: image }} />
-        <Image 
-          style={{ 
-            borderBottomRightRadius: 30, 
-            borderBottomLeftRadius: 30,
-            height: 100, 
-            width: 373, 
-            zIndex: 108, 
-          }} 
-          source={{ uri: image }} />
-      </View>
+  const { width } = useWindowDimensions();
 
-      <View style={{ 
-        backgroundColor: 'transparent', 
-        bottom: -3, 
-        borderBottomRightRadius: 30, 
-        borderBottomLeftRadius: 30,
-        height: 124, 
-        overflow: 'hidden',
-        position: 'absolute', 
-        padding: 20,
-        width: 373, 
-        zIndex: 120,
-      }}>
-        <BlurView style={{ height: 124, position: 'absolute', width: 373 }} tint='dark' intensity={80} />
-        <View>
-          <View style={{ alignItems: 'center', flexDirection: 'row', marginBottom: 6 }}>
-            <Text color='#fff' fontSize={19} fontWeight='600' width={292}>{summaryText}</Text>
-            <Pressable onPress={handlePressBookmarkButton}>
-              {<Ionicons color={isBookmarked ? '#39ACFF' : '#39adff9d'} name={isBookmarked ? 'bookmark' : 'bookmark-outline'} size={36} />}
-            </Pressable>
+  return(
+    <View style={{ marginBottom: 12 }}>
+      <Pressable onPress={handleNavigationToArticle} style={{ alignItems: 'center', flexDirection: 'row' }}>
+        <Image style={{ borderRadius: 11, flex: 1, height: 57, maxWidth: 74 }} source={{ uri: image }} />
+        <View style={{ flex: 1, flexDirection: 'row', marginLeft: 10 }}>
+          <View style={{ width: 240 }}>
+            <Text fontWeight='500'>{summaryText}</Text>
+            <Text fontSize={13} fontWeight='400' opacity={0.4} style={{ marginTop: 3}}>{datePublished}</Text>
           </View>
-          <Text color='#fff' fontSize={16} fontWeight='600' opacity={0.65}>{datePublished}</Text>
+          <Pressable onPress={handlePressBookmarkButton} style={{ alignItems: 'flex-start', flex: 1, justifyContent: 'center' }}>
+            <Ionicons color={isBookmarked ? '#39ACFF' : '#e0e0e0'} name='bookmark' size={25} />
+          </Pressable>
         </View>
-      </View>
+      </Pressable>
+      <View style={{ backgroundColor: '#000', height: 1, marginTop: 12, opacity: 0.04 }}></View>
     </View>
   )
 };
